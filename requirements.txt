@@ -1,0 +1,5 @@
+selenium~=4.25.0
+pytest-html
+pytest~=8.3.3
+requests~=2.32.3
+# cx-Oracle~=8.3.0

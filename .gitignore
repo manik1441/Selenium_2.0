@@ -1,0 +1,7 @@
+*pycache
+*__pycache__
+.pytest_cache
+.vscode
+venv
+report.html
+assets
