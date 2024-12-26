@@ -14,7 +14,8 @@ def init_driver(request):
     if browser == 'chrome': 
             options = webdriver.ChromeOptions()
             # options.add_argument("--incognito")
-            driver = webdriver. Chrome (options=options)
+            options.add_experimental_option('detach', True)
+            driver = webdriver.Chrome(options=options)
     elif browser == 'ie':
         driver = webdriver.Firefox()
     else:
