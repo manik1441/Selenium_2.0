@@ -9,7 +9,7 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope='function', autouse=True)
 def init_driver(request):
-    global driver
+    # global driver
     browser = request.config.getoption("browser")
     if browser == 'chrome': 
             options = webdriver.ChromeOptions()
@@ -43,7 +43,7 @@ def pytest_runtest_makereport(item):
         xfail = hasattr(report, "wasxfail")
         if (report.skipped and xfail) or (report.failed and not xfail):
             file_name = '../reports/' + str(report.start) + '.jpeg'
-            driver.get_screenshot_as_file(file_name)
+            pytest.driver.get_screenshot_as_file(file_name)
             html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
                    'onclick="window.open(this.src)" align="right"/></div>' % file_name
             extras.append(pytest_html.extras.html(html))
