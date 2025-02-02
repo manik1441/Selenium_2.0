@@ -1,12 +1,14 @@
 from config.config import URL
-from locators.login import LoginLocators
-from pages.basePage import BaseClass
+from locators.LoginLocator import LoginLocators
+from pages.BasePage import BasePage
 
 
-class Login(BaseClass):
+class Login(BasePage):
 
     def navigate_to_login_page(self):
         self.navigate(URL().url())
+        self.logger.info("Navigated to URL.")
+        self.log("Navigated to URL.")
 
     def enter_username(self, value):
         self.send_keys(LoginLocators.USERNAME, value)
