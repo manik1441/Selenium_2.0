@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/manik1441/Selenium_2.0.git' // Replace with your repo
+            }
+        }
+
+        stage('Setup') {
+            steps {
+                script {
+                    sh 'python3 -m venv venv'
+                    sh 'source venv/bin/activate'
+                    sh 'pip install -r requirements.txt'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    sh 'pytest -m regression --html=report.html -vs'
+                }
+            }
+        }
+
+        stage('Archive Reports') {
+            steps {
+                archiveArtifacts artifacts: 'report.html', fingerprint: true
+            }
+        }
+    }
+}

@@ -7,7 +7,7 @@ from selenium import webdriver
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="")
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='function')
 def init_driver(request):
     # global driver
     browser = request.config.getoption("browser")
