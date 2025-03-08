@@ -8,3 +8,6 @@ class URL:
 
     def url(self):
         return eval("URL." + ENV.run_env)
+
+
+DEBUG_LOG = False
