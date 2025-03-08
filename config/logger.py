@@ -1,7 +1,8 @@
 import logging
 import logging.config
-
-def setup_logging(debug=False):
+import config
+def setup_logging():
+    debug = config.DEBUG_LOG if hasattr(config, 'DEBUG_LOG') and config.DEBUG_LOG else False
     logging_config = {
         'version': 1,
         'disable_existing_loggers': False,

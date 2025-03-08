@@ -11,3 +11,4 @@ class URL:
 
 
 DEBUG_LOG = False
+TIMEOUT = 20

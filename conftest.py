@@ -1,6 +1,7 @@
 import os
 import pytest
-from config.logger import setup_logging, logging
+
+from config.logger import setup_logging
 from driver.webdriver_factory import WebDriverFactory
 
 
@@ -24,30 +25,24 @@ def init_setup(request):
 def pytest_html_report_title(report):
     report.title = "TITLE!"
 
-
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item):
-    pytest_html = item.config.pluginmanager.get_plugin('html')
+    pytest_html = item.config.pluginmanager.getplugin('html')
     outcome = yield
     report = outcome.get_result()
-    extras = getattr(report, "extras", [])
-    logger = logging.getLogger(item.nodeid)
-
-    if report.when == "call" or report.when == "setup":
-        xfail = hasattr(report, "wasxfail")
-        if report.passed:
-            logger.info(f"Test {item.nodeid} PASSED")
-        elif report.failed and not xfail:
-            logger.error(f"Test {item.nodeid} FAILED")
-            file_name = '../reports/' + str(report.start) + '.jpeg'
-            pytest.driver.get_screenshot_as_file(file_name)
-            html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
-                   'onclick="window.open(this.src)" align="right"/></div>' % file_name
-            extras.append(pytest_html.extras.html(html))
-        elif report.skipped:
-            logger.warning(f"Test {item.nodeid} SKIPPED")
-        report.extras = extras
-
+    extra = getattr(report, 'extra', [])
+    if report.when == 'call' or report.when == "setup":
+        xfail = hasattr(report, 'wasxfail')
+        if (report.skipped and xfail) or (report.failed and not xfail):
+            dir = os.path.dirname(__file__)+'\\reports\\'
+            file_name = report.nodeid.split('::')[1] + ".png"
+            file = os.path.join(dir,file_name)
+            pytest.driver.save_screenshot(file)
+            if file_name:
+                html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
+                       'onclick="window.open(this.src)" align="right"/></div>' %file_name
+                extra.append(pytest_html.extras.html(html))
+        report.extras = extra
 
 @pytest.fixture()
 def delete_files_in_directory(dir_path='/reports/'):
