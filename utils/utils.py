@@ -1,5 +1,7 @@
 import configparser
 
+import yaml
+
 
 def config_read (section, value):
     try:
@@ -23,3 +25,8 @@ def base_url():
     except Exception as e:
         print(e)
         return None
+
+def yml_reader(file):
+    with open(f'../../data/api/{file}','r') as f:
+        yml = yaml.safe_load(f)
+    return yml

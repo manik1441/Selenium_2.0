@@ -1,0 +1,4 @@
+GET_USERS:
+  params: '/users?page=2'
+  headers: {}
+  payload: {}

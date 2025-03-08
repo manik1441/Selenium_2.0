@@ -1,5 +1,5 @@
 import pytest
-from pages.LoginPage import Login
+from pages.ui.LoginPage import Login
 
 @pytest.mark.parametrize('username, password', [ ('Admin', 'admin123'),
                                                 ('Admin', 'admin1234'),

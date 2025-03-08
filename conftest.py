@@ -1,16 +1,20 @@
 import os
 import pytest
 
+from config.config import env_setups
+from config import config
 from config.logger import setup_logging
 from driver.webdriver_factory import WebDriverFactory
 
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="")
+    parser.addoption("--env", action="store", default="demo")
 
 @pytest.fixture(scope='function', autouse=True)
 def init_setup(request):
     setup_logging()
+    config.ENVIRONMENT = env_setups(request)
     if request.path.parts[-2] == 'ui':
         driver = WebDriverFactory().get_webdriver(request)
         pytest.driver = driver
@@ -37,11 +41,12 @@ def pytest_runtest_makereport(item):
             dir = os.path.dirname(__file__)+'\\reports\\'
             file_name = report.nodeid.split('::')[1] + ".png"
             file = os.path.join(dir,file_name)
-            pytest.driver.save_screenshot(file)
-            if file_name:
-                html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
-                       'onclick="window.open(this.src)" align="right"/></div>' %file_name
-                extra.append(pytest_html.extras.html(html))
+            if hasattr(pytest,'driver'):
+                pytest.driver.save_screenshot(file)
+                if file_name:
+                    html = '<div><img src="%s" alt="screenshot" style="width:304px;height:228px;" ' \
+                           'onclick="window.open(this.src)" align="right"/></div>' %file_name
+                    extra.append(pytest_html.extras.html(html))
         report.extras = extra
 
 @pytest.fixture()
