@@ -1,6 +1,6 @@
 import os
 import pytest
-
+from datetime import datetime
 from config.config import env_setups
 from config import config
 from config.logger import setup_logging
@@ -29,6 +29,24 @@ def init_setup(request):
 def pytest_html_report_title(report):
     report.title = "TITLE!"
 
+
+
+def pytest_configure(config):
+    # Get the current timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+    # Create a folder with the timestamp
+    report_folder = os.path.dirname(__file__) + f"/reports/report_{timestamp}"
+    os.makedirs(report_folder, exist_ok=True)
+
+    # Set the report file path
+    html_path = os.path.join(report_folder, "report.html")
+
+    # Set the pytest-html's `--html` option dynamically
+    config.option.htmlpath = html_path
+    config.report_folder = report_folder
+
+
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item):
     pytest_html = item.config.pluginmanager.getplugin('html')
@@ -38,7 +56,7 @@ def pytest_runtest_makereport(item):
     if report.when == 'call' or report.when == "setup":
         xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
-            dir = os.path.dirname(__file__)+'\\reports\\'
+            dir = item.config.report_folder
             file_name = report.nodeid.split('::')[1] + ".png"
             file = os.path.join(dir,file_name)
             if hasattr(pytest,'driver'):
