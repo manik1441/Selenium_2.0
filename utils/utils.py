@@ -1,32 +1,6 @@
-import configparser
-
 import yaml
 
-
-def config_read (section, value):
-    try:
-        config = configparser.ConfigParser()
-        config.read('../config/config.ini')
-        return config[section][value]
-    except Exception as e:
-        print(e)
-        return None
-
-
-
-def base_url():
-    try:
-        config = configparser.ConfigParser()
-        config.read(' ../config/config.ini')
-        env = config['DEFAULT']['run_env']
-        url = config['URL'][env.upper()]
-        print (url + '---------')
-        return url 
-    except Exception as e:
-        print(e)
-        return None
-
-def yml_reader(file):
+def api_yml_reader(file):
     with open(f'../../data/api/{file}','r') as f:
         yml = yaml.safe_load(f)
     return yml

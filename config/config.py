@@ -22,6 +22,7 @@ class EnvironmentProcessor:
                     "db": "si_db",
                     "host": "si-db.example.com",
                     "port": 5432,
+                    "base_url":"https://reqres.in"
                 }
             elif env == "qa":
                 self.env_details = {
@@ -32,6 +33,7 @@ class EnvironmentProcessor:
                     "db": "qa_db",
                     "host": "qa-db.example.com",
                     "port": 5432,
+                    "base_url": "https://reqres.in"
                 }
             elif env == "uat":
                 self.env_details = {
@@ -42,6 +44,7 @@ class EnvironmentProcessor:
                     "db": "uat_db",
                     "host": "uat-db.example.com",
                     "port": 5432,
+                    "base_url": "https://reqres.in"
                 }
             else:
                 raise ValueError(f"Unsupported environment: {env}")

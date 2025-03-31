@@ -8,7 +8,7 @@ from driver.webdriver_factory import WebDriverFactory
 
 
 def pytest_addoption(parser):
-    parser.addoption("--browser", action="store", default="")
+    parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--env", action="store", default="demo")
 
 @pytest.fixture(scope='function', autouse=True)
@@ -21,7 +21,7 @@ def init_setup(request):
         yield driver
         driver.quit()
     else:
-        pass
+        yield
 
 
 # ------------------------------------------------HTML REPORT----------------------------------------------
