@@ -1,7 +1,6 @@
 import pytest, logging
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
-
 from config import config
 
 

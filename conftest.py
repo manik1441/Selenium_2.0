@@ -11,17 +11,20 @@ def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
     parser.addoption("--env", action="store", default="demo")
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='session')
 def init_setup(request):
     setup_logging()
     config.ENVIRONMENT = env_setups(request)
+
+@pytest.fixture(autouse=True)
+def setup_driver(request, init_setup):
     if request.path.parts[-2] == 'ui':
         driver = WebDriverFactory().get_webdriver(request)
         pytest.driver = driver
         yield driver
         driver.quit()
     else:
-        yield
+        pass
 
 
 # ------------------------------------------------HTML REPORT----------------------------------------------
@@ -33,7 +36,10 @@ def pytest_html_report_title(report):
 
 def pytest_configure(config):
     # Get the current timestamp
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    timestamp = os.environ.get("REPORT_TIMESTAMP")
+    if not timestamp:
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        os.environ["REPORT_TIMESTAMP"] = timestamp
 
     # Create a folder with the timestamp
     report_folder = os.path.dirname(__file__) + f"/reports/report_{timestamp}"

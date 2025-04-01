@@ -1,6 +1,9 @@
-import yaml
+import os, yaml
 
 def api_yml_reader(file):
-    with open(f'../../data/api/{file}','r') as f:
-        yml = yaml.safe_load(f)
-    return yml
+    try:
+        with open(os.path.join(os.path.dirname(__file__), f'../data/api/{file}'),'r') as f:
+            yml = yaml.safe_load(f)
+        return yml
+    except FileNotFoundError as e:
+        raise e
