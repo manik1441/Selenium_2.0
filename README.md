@@ -1,12 +1,15 @@
-# Selenium_2.0
+## Setup
+
+1. Run the setup script to create a virtual environment and install dependencies:
+   ```bash
+   python setup.py
+   ```
 
 
-
-
-
-
-
-
+2. To activate the virtual environment, run:
+   ```bash
+   venv\Scripts\activate
+   ```
 
 # API Testing Framework
 
