@@ -1,0 +1,4 @@
+get_users:
+  endpoint: '/api/users?page=2'
+  headers: {}
+  payload: {}

@@ -5,3 +5,4 @@
 venv
 report.html
 assets
+*.log
