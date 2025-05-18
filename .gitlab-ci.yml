@@ -1,0 +1,21 @@
+image: python:3.10
+
+stages:
+  - test
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+before_script:
+  - python -V
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+
+test:
+  stage: test
+  script:
+    - pytest --html=reports/report.html --self-contained-html
+  artifacts:
+    paths:
+      - reports/
+    when: always
