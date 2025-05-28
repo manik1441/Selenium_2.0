@@ -8,6 +8,10 @@ build:
   stage: build
   script:
     - python -V
+    - python -m venv venv
     - pip install --upgrade pip
+    - source venv/bin/activate
     - pip install -r requirements.txt
-    - pytest -m
+    - pytest -k test_login.py
+
+
