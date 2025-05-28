@@ -10,6 +10,7 @@ build:
     - python -V
     - pip install --upgrade pip
     - pip install -r requirements.txt
+    - pytest -m regression
 
 
 test:
