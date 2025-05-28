@@ -24,7 +24,7 @@ def setup_driver(request, init_setup):
         yield driver
         driver.quit()
     else:
-        pass
+        yield None
 
 
 # ------------------------------------------------HTML REPORT----------------------------------------------
