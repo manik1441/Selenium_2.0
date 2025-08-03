@@ -7,11 +7,16 @@ stages:
 build:
   stage: build
   script:
-    - python -V
-    - python -m venv venv
+    - python -v
     - pip install --upgrade pip
-    - source venv/bin/activate
     - pip install -r requirements.txt
-    - pytest -k test_login.py
 
 
+test:
+  stage: test
+  script:
+    - pytest -m regression --html=reports/report.html --self-contained-html
+  artifacts:
+    paths:
+      - reports/
+    when: always
