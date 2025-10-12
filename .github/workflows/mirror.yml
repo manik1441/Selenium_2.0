@@ -1,0 +1,21 @@
+name: Mirror to GitLab
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Mirror to GitLab
+        run: |
+          git config --global user.name "GitHub Mirror Bot"
+          git config --global user.email "manik1441@gmail.com"
+          git remote add gitlab https://oauth2:${{ secrets.GOTLAB_TOKEN }}@gitlab.com/manik1441//Selenium_2.0.git
+          git push --mirror gitlab
