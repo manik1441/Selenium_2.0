@@ -2,7 +2,7 @@ image: python:3.10
 
 stages:
   - build
-  - tests
+  - test
 
 build:
   stage: build
@@ -12,7 +12,7 @@ build:
     - pip install --upgrade pip
     - source venv/bin/activate
 
-  tests:
+  test:
     stage: test
     script:
     - pip install -r requirements.txt
