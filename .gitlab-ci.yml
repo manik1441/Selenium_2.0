@@ -16,6 +16,6 @@ build:
     stage: test
     script:
     - pip install -r requirements.txt
-    - pytest -k test_login.py
+    - pytest -k test_login.py --headless
 
 

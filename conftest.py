@@ -9,17 +9,27 @@ from driver.webdriver_factory import WebDriverFactory
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default="chrome")
+    parser.addoption("--grid", action="store_true", default=False)
     parser.addoption("--env", action="store", default="demo")
+    parser.addoption("--headless", action="store_true", default=False)
 
 @pytest.fixture(scope='session')
 def init_setup(request):
     setup_logging()
     config.ENVIRONMENT = env_setups(request)
 
+
+@pytest.fixture(params=["firefox"])
+def grid_browser(request):
+    return request.param
+
 @pytest.fixture(autouse=True)
-def setup_driver(request, init_setup):
+def setup_driver(request, init_setup, grid_browser):
     if request.path.parts[-2] == 'ui':
-        driver = WebDriverFactory().get_webdriver(request)
+        if request.config.getoption("grid"):
+            driver = WebDriverFactory().get_webdriver_grid(grid_browser)
+        else:
+            driver = WebDriverFactory().get_webdriver(request)
         pytest.driver = driver
         yield driver
         driver.quit()
