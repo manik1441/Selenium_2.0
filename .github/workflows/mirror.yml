@@ -23,4 +23,4 @@ jobs:
       - name: Mirror to GitLab
         run: |
           git remote add gitlab https://oauth2:${{ secrets.GOTLAB_TOKEN }}@gitlab.com/manik1441/Selenium_2.0.git
-          git push --mirror gitlab
+          git push --prune gitlab +refs/heads/*:refs/heads/* +refs/tags/*:refs/tags/*
